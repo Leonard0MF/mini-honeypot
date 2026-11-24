@@ -11,11 +11,12 @@ Esse é um projeto simples que eu fiz pra começar a entender melhor como funcio
 
  O que ele faz
 
-- Escuta conexões na porta 8080
-- Registra o IP de quem tentou se conectar
-- Guarda o texto enviado no log
-- Funciona com telnet ou até navegadores (se mudar a porta pra 80)
-- Cria os logs em uma pastinha automática
+- Escuta conexões na porta 8080 (dá pra mudar com `--port`)
+- Registra o IP de quem tentou se conectar, mesmo que não mande nada (tipo um port scan)
+- Guarda o texto enviado no log, numa linha só e "escapado" (ninguém consegue forjar linhas falsas no log)
+- Funciona com telnet, netcat ou até navegadores (o navegador não vai mostrar uma página bonita, porque a resposta não é HTTP)
+- Cria os logs em uma pastinha automática (`logs/`, do lado do script), com rotação pra não encher o disco
+- Tem timeout e limite de conexões simultâneas, pra não travar se alguém tentar derrubar
 
 
  Por que eu fiz isso?
@@ -26,11 +27,29 @@ Esse projeto é meu jeito de começar a explorar o lado da coleta de informaçõ
 
  Como rodar
 
-1. Tenha Python instalado (usei a versão 3.14)
+1. Tenha Python 3 instalado (usei a versão 3.14). Não precisa instalar nenhuma biblioteca.
 2. Clona o repositório:
    ```bash
-   git clone https://github.com/Leonard0MF/MINY-HONEYPOT
-   cd MINY-HONEYPOT
+   git clone https://github.com/Leonard0MF/mini-honeypot
+   cd mini-honeypot
+   ```
+3. Roda:
+   ```bash
+   python3 honeypot.py
+   # ou com opções:
+   python3 honeypot.py --port 2222 --timeout 5 --max-conns 50
+   ```
+   Portas abaixo de 1024 (tipo a 80) precisam de root no Linux.
+4. Testa de outro terminal:
+   ```bash
+   printf 'oi\n' | nc localhost 8080
+   ```
+
+O log fica em `logs/connections.log`, num formato assim:
+
+```
+[2026-11-24T12:00:00Z] Conexão de 127.0.0.1:54321 -> oi\n
+```
 
 Isso aqui é só pra estudo. Não use isso exposto na internet sem proteção, e sempre com responsabilidade.
 
