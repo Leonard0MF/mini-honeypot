@@ -75,4 +75,4 @@ Isso aqui é só pra estudo. Não use isso exposto na internet sem proteção, e
 
 ---
 
-Feito por mim, Leonardo — 17 anos, estudando programação e cibersegurança.
+Feito por mim, Leonardo — 18 anos, estudando programação e cibersegurança.
